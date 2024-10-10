@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 function App() {
   const [question, setQuestion] = useState("");
@@ -11,7 +12,7 @@ function App() {
   async function generateAnswer(e) {
     setGeneratingAnswer(true);
     e.preventDefault();
-    setAnswer("Loading your answer... \n It might take upto 10 seconds");
+    setAnswer("Loading your answer... \n It might take up to 10 seconds");
     try {
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${"AIzaSyCEvqPJLKKipjJ1hOblhFPVwn7uvC78D5w"}`,
@@ -39,11 +40,7 @@ function App() {
           onSubmit={generateAnswer}
           className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 text-center rounded-lg shadow-lg bg-white py-6 px-4 transition-all duration-500 transform hover:scale-105"
         >
-          <a
-            href="https://github.com/Vishesh-Pandey/chat-ai"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="" target="_blank" rel="noopener noreferrer">
             <h1 className="text-4xl font-bold text-blue-500 mb-4 animate-bounce">
               Chat AI
             </h1>
@@ -66,7 +63,9 @@ function App() {
           </button>
         </form>
         <div className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 text-center rounded-lg bg-white my-4 shadow-lg transition-all duration-500 transform hover:scale-105">
-          <ReactMarkdown className="p-4">{answer}</ReactMarkdown>
+          <ReactMarkdown className="p-4" remarkPlugins={[remarkGfm]}>
+            {answer}
+          </ReactMarkdown>
         </div>
       </div>
     </>
